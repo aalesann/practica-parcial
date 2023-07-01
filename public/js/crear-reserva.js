@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const formCrearReserva = document.querySelector("#formNuevaReserva")
+const formCrearReserva = document.querySelector("#formNuevaReserva")
 
 formCrearReserva.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -13,29 +12,32 @@ formCrearReserva.addEventListener('submit', async (e) => {
     const telefono = document.querySelector('#telefono').value;
     const email = document.querySelector('#email').value;
 
+    const reserva = {
+        nombre,
+        apellido,
+        fecha_ingreso,
+        fecha_salida,
+        habitacion,
+        cantidad_personas,
+        telefono,
+        email
+    }
+
 
     const response = await fetch('http://localhost:4000/api', {
         method: 'POST',
-        body: JSON.stringify({
-            nombre,
-            apellido,
-            fecha_ingreso,
-            fecha_salida,
-            habitacion,
-            cantidad_personas,
-            telefono,
-            email
-        })
-    });
+        body: JSON.stringify(reserva),
+        headers: {
+            'Content-Type': 'application/json' // Cuando se envían datos JSON al servidor
+        }
+    })
 
-    const data = await response.json()
+    const data = await response.json();
 
-    if(!response.ok){
-        alert('ERROR:', data.message)
-        console.error(message);
-    }
+    alert(data.message)
+    window.location.href = "/"
 
-    console.log({data})
-    alert(data.message);
+
+
 });
-})
+
