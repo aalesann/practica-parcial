@@ -32,10 +32,27 @@ formCrearReserva.addEventListener('submit', async (e) => {
         }
     })
 
+    if (response.status !== 201) {
+        return Swal.fire({
+            title: 'Error',
+            text: 'Hubo un error al crear la reserva',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+
     const data = await response.json();
 
-    alert(data.message)
-    window.location.href = "/"
+    Swal.fire({
+        title: 'Reserva creada',
+        text: data.message,
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+
+    setTimeout(() => {
+        window.location.href = "/"
+    }, 2000);
 
 
 

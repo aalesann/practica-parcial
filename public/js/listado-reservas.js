@@ -1,10 +1,10 @@
 const obtenerDatos = async () => {
-        // Pedir las reservas al servidor
-        const data = await fetch('http://localhost:4000/api', {
-            method: 'GET'
-        });
-        const reservas = await data.json();
-        return reservas;
+    // Pedir las reservas al servidor
+    const data = await fetch('http://localhost:4000/api', {
+        method: 'GET'
+    });
+    const reservas = await data.json();
+    return reservas;
 }
 
 
@@ -16,17 +16,19 @@ const mostrarReservas = (reservas, tablaElement) => {
                 <td>${reserva.codigo}</td>
                 <td>${reserva.nombre}</td>
                 <td>${reserva.apellido}</td>
-                <td>${reserva.fecha_ingreso}</td>
-                <td>${reserva.fecha_salida}</td>
+                <td>${dayjs(reserva.fecha_ingreso).format('MM-DD HH:mm')}</td>
+                <td>${dayjs(reserva.fecha_salida).format('YYYY-MM-DD HH:mm')}</td>
                 <td>${reserva.habitacion}</td>
                 <td>${reserva.cantidad_personas}</td>
                 <td>${reserva.telefono}</td>
                 <td>${reserva.email}</td>
-                <td>
-               <div class="row">
-               <a href="/actualizar-reserva/${reserva.id}" class="btn btn-sm btn-warning">Editar</a>
-               <button class="btn btn-danger btn-sm" data-id="${reserva.id}" onClick=eliminarReserva(event)>Eliminar</button>
-               </div>
+                <td class="gap-1">               
+                    <a href="/actualizar-reserva/${reserva.id}" class="btn btn-sm btn-warning fa-regular fa-pen-to-square">
+                        
+                    </a>
+                    <button class="btn btn-sm btn-danger fa-solid fa-trash" data-id="${reserva.id}" onClick=eliminarReserva(event)>
+                       
+                    </button>
                 </td>
             </tr>
         `
@@ -42,16 +44,48 @@ const eliminarReserva = async (e) => {
     console.log(e)
     const id = e.target.dataset.id;
 
+    // Se pregunta al usuario si está seguro de eliminar la reserva
+    const result = await Swal.fire({
+        title: '¿Está seguro de eliminar la reserva?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    })
 
-    const response = await fetch(`/api/${id}`,{
+    if (!result.isConfirmed) {
+        return;
+    }
+
+    const response = await fetch(`/api/${id}`, {
         method: 'DELETE',
     })
 
     const data = await response.json();
 
-    alert(data.message);
+    if (response.status !== 200) {
+        Swal.fire({
+            title: 'Error',
+            text: data.message,
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        })
+    }
 
-    window.location.href = "/"
+    Swal.fire({
+        title: 'Reserva eliminada',
+        text: data.message,
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    })
+
+    setTimeout(() => {
+        // Redireccionar al usuario
+        window.location.href = "/"
+    }, 2000);
 
 }
 

@@ -3,8 +3,8 @@ const reservaId = formReserva.dataset.id;
 
 const nombre = document.querySelector('#nombre')
 const apellido = document.querySelector('#apellido')
-const fecha_ingreso = document.querySelector('#fecha_ingreso')
-const fecha_salida = document.querySelector('#fecha_salida')
+const fecha_ingreso = document.querySelector('#fechaingreso')
+const fecha_salida = document.querySelector('#fechasalida')
 const habitacion = document.querySelector('#habitacion')
 const cantidad_personas = document.querySelector('#cantidad_personas')
 const telefono = document.querySelector('#telefono')
@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     nombre.value = data.nombre;
     apellido.value = data.apellido;
     fecha_ingreso.value = data.fecha_ingreso;
-    fecha_salida.value = data.fecha_salida;
+    fecha_salida.value = dayjs(data.fecha_salida).format('YYYY-MM-DD HH:mm');
+    fecha_ingreso.value = dayjs(data.fecha_ingreso).format('YYYY-DD-MM HH:mm');
     habitacion.value = data.habitacion;
     cantidad_personas.value = data.cantidad_personas;
     telefono.value = data.telefono;
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 formReserva.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     reservaActualizada = {
         nombre: nombre.value,
         apellido: apellido.value,
@@ -48,16 +49,36 @@ formReserva.addEventListener('submit', async (e) => {
         method: 'PUT',
         body: JSON.stringify(reservaActualizada),
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type': 'application/json'
         }
     })
 
-    // const data = await response.json();
+    const respToJson = await response.json();
+
+    if (response.status !== 200) {
+
+        return Swal.fire({
+            title: 'Error',
+            text: respToJson.message,
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+
 
     // Mostrar mensajes al usuario
-    alert(data.message);
+    Swal.fire({
+        title: 'Reserva actualizada',
+        text: respToJson.message,
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    })
 
-    // Redireccionar al usuario
+
+    setTimeout(() => {
+        // Redireccionar al usuario
+        window.location.href = "/"
+    }, 2000);
 
 
 
