@@ -10,7 +10,7 @@
         </div>
 
         <div class="mx-auto">
-            <form id="formNuevaReserva" method="POST" class="rounded border p-3" data-id="<%= id %>">
+            <form id="formNuevaReserva" method="POST" class="rounded border p-3">
                 <h3 class="mb-3 text-center bg-primary text-light rounded p-2">Nueva Reserva</h3>
                 <div class="row">
                     <div class="col col-md-6 col-sm-12 mb-3">
@@ -27,14 +27,14 @@
                     <!-- Fecha Ingreso -->
                     <div class="col col-md-6 col-sm-12 mb-3">
                         <label for="fechaingreso" class="form-label">Fecha Ingreso</label>
-                        <input type="datetime-local" required="true" class="form-control" id="fechaingreso"
+                        <input type="datetime" required="true" class="form-control" id="fechaingreso"
                             name="fecha_ingreso">
                     </div>
 
                     <!-- Fecha Salida -->
                     <div class="col col-md-6 col-sm-12 mb-3">
                         <label for="fechasalida" class="form-label">Fecha Salida</label>
-                        <input type="datetime-local" required="true" class="form-control" id="fechasalida"
+                        <input type="datetime" required="true" class="form-control" id="fechasalida"
                             name="fecha_salida">
                     </div>
 

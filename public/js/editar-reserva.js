@@ -1,6 +1,9 @@
 const formReserva = document.querySelector('#formNuevaReserva');
 const reservaId = formReserva.dataset.id;
 
+// Aleternativa utilizando la captura del pathname
+// const reservaId = window.location.pathname.split('/').pop();
+
 const nombre = document.querySelector('#nombre')
 const apellido = document.querySelector('#apellido')
 const fecha_ingreso = document.querySelector('#fechaingreso')
@@ -20,8 +23,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     nombre.value = data.nombre;
     apellido.value = data.apellido;
     fecha_ingreso.value = data.fecha_ingreso;
-    fecha_salida.value = dayjs(data.fecha_salida).format('YYYY-MM-DD HH:mm');
-    fecha_ingreso.value = dayjs(data.fecha_ingreso).format('YYYY-DD-MM HH:mm');
+    fecha_ingreso.value = dayjs(data.fecha_ingreso).format('DD-MM-YYYY HH:mm');
+    fecha_salida.value = dayjs(data.fecha_salida).format('DD-MM-YYYY HH:mm');
     habitacion.value = data.habitacion;
     cantidad_personas.value = data.cantidad_personas;
     telefono.value = data.telefono;
@@ -56,7 +59,6 @@ formReserva.addEventListener('submit', async (e) => {
     const respToJson = await response.json();
 
     if (response.status !== 200) {
-
         return Swal.fire({
             title: 'Error',
             text: respToJson.message,
@@ -74,6 +76,7 @@ formReserva.addEventListener('submit', async (e) => {
         confirmButtonText: 'Aceptar'
     })
 
+    
 
     setTimeout(() => {
         // Redireccionar al usuario

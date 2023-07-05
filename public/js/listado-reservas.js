@@ -16,8 +16,8 @@ const mostrarReservas = (reservas, tablaElement) => {
                 <td>${reserva.codigo}</td>
                 <td>${reserva.nombre}</td>
                 <td>${reserva.apellido}</td>
-                <td>${dayjs(reserva.fecha_ingreso).format('MM-DD HH:mm')}</td>
-                <td>${dayjs(reserva.fecha_salida).format('YYYY-MM-DD HH:mm')}</td>
+                <td>${dayjs(reserva.fecha_ingreso).format('DD-MM-YYYY HH:mm')}</td>
+                <td>${dayjs(reserva.fecha_salida).format('DD-MM-YYYY HH:mm')}</td>
                 <td>${reserva.habitacion}</td>
                 <td>${reserva.cantidad_personas}</td>
                 <td>${reserva.telefono}</td>
@@ -27,7 +27,6 @@ const mostrarReservas = (reservas, tablaElement) => {
                         
                     </a>
                     <button class="btn btn-sm btn-danger fa-solid fa-trash" data-id="${reserva.id}" onClick=eliminarReserva(event)>
-                       
                     </button>
                 </td>
             </tr>
